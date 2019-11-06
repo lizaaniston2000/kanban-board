@@ -12,11 +12,13 @@
         <div class="card">
             <h3>План на месяц</h3>
             <div class="task-list">
-                <div class="task">
-                    <p>Пройти курс по React</p>
-                </div>
-                <div class="task">
-                    <p>Пройти курс по React</p>
+                <div class="task-container">
+                    <div class="task">
+                        <p>Пройти курс по React</p>
+                    </div>
+                    <div class="task">
+                        <p>Пройти курс по React</p>
+                    </div>
                 </div>
             </div>
             <div class="add-task">
@@ -30,7 +32,30 @@
                     <input class="input" type="text" placeholder="Введите название карточки">
                 </div>
                 <div class="button_container">
-                    <button class="task-button">Добавить карточку</button>
+                    <button type="submit" class="task-button">Добавить карточку</button>
+                    <img src="src/public/img/cross.png" alt="" class="close">
+                </div>
+            </form>
+        </div>
+        <div class="error_alert">
+            <div>
+                <p>Пожалуйста, заполните поле</p>
+                <button class="task-button">Ok</button>
+            </div>
+        </div>
+        <div class="card" id = "addColumn">
+            <div class="add-task">
+                <div>
+                    <img src="src/public/img/Vector.png" alt="">
+                    <span>Добавить ещё одну колонку</span>
+                </div>
+            </div>
+            <form action="" class="input-task">
+                <div class="input_container">
+                    <input class="input" type="text" placeholder="Введите название колонки">
+                </div>
+                <div class="button_container">
+                    <button type="submit" class="task-button">Добавить колонку</button>
                     <img src="src/public/img/cross.png" alt="" class="close">
                 </div>
             </form>
