@@ -1,0 +1,15 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+.kanban_board {
+    padding-top: 21px;
+    padding-left: 20px;
+    display: flex;
+    align-items: flex-start;
+    width: 1200px;
+    height: 655px;
+    margin: 0 auto;
+    background: url(../public/img/background.png) no-repeat ;
+    background-size: cover;
+    background-position: center center;
+}
