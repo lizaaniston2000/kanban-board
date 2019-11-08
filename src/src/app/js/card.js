@@ -1,15 +1,13 @@
 const addButton = document.querySelectorAll('.add-task');
 const inputTask = document.querySelectorAll('.input-task');
-const closeButton = document.querySelectorAll('.card .close');
-const addColumn = document.getElementById('addColumn')
+const closeButton = document.querySelectorAll('.close');
 const errorMessage = document.querySelector('.error_alert');
 const errorButton = document.querySelector('.error_alert .task-button');
-const card = document.querySelectorAll('.card')
-
-/* hideForm()
-clickBut() */
-
-export function clickBut() {
+const card = document.querySelector('.card')
+/* hideForm() */
+ 
+clickBut()
+function clickBut() {
     addButton.forEach((el,i) => {
         el.onclick = () => {
         el.style.display = 'none'
@@ -29,11 +27,12 @@ errorButton.addEventListener('click', () => {
     errorMessage.style.display = 'none';
 })
 
-export function hideForm() {
-    inputTask.forEach(task => {task.style.display = "none" })
-}
+/* export function hideForm() {
+  inputTask.forEach(task =>  {task.style.display = "none" })
+} */
 
-errorMessage.style.display = 'none';
+
+errorMessage.style.display = 'none'; 
 
 /* class Task {
     constructor(task_name) {

@@ -48,15 +48,12 @@
     font-size: 13px;
     color: #6B808C;
     width: 272px;
-    height: 43px;
     border-radius: 3px;
-    div {
-        display: flex;
-        align-items: center;
-        height: 100%;
-    }
+    height: 20px;
+    padding-top: 12px;
+    padding-bottom: 13px;
+    padding-left: 12px;
     img {
-        padding-left: 12px;
         padding-right: 8px;
     }
 }
@@ -64,6 +61,7 @@
     align-self: center;
     height: 100px;
     padding-bottom: 12px;
+    display: none;
 }
 .input_container {
     width: 248px;
