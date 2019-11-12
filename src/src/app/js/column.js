@@ -1,7 +1,11 @@
+import {Task} from './card'
 class Column {
     constructor(col_name) {
         this.col_name = col_name;
-    }
+        Column.id+=1
+        this.id = Column.id
+        this.task_list = Column.task_list;
+    } 
     static newColumn(column) {
         this.createTask()
         this.createForm()
@@ -20,6 +24,7 @@ class Column {
         col.appendChild(form)
         col.appendChild(create_task)
         col.appendChild(taskList)
+        return col
     }
     static createTask() {
         const col = document.querySelector('.card');
@@ -40,14 +45,20 @@ class Column {
         const cansel = document.createElement('img')
         cansel.onclick = () => {
             form.style.display = 'none'
-            this.showButton()
+            this.showButton()  
         }
         cansel.className = 'close'
         cansel.src = 'src/public/img/cross.png'
         button.className = 'task-button'
         button.textContent = 'Добавить карточку'
+        button.id = 'button-task'
+        button.onclick = function (e) {
+            e.preventDefault()
+            Column.addDescription()
+        }
         input.placeholder = 'Введите название карточки'
         input.className = 'input'
+        input.id = "task_name"
         form.id = 'new_task'
         form.style.display = 'none'
         col.appendChild(form)
@@ -64,7 +75,7 @@ class Column {
         create_task.id = 'add-task'
         create_task.onclick = function() {
             form.style.display = 'block'
-            create_task.style.display= 'none';
+            create_task.style.display = 'none'
         }
         const span = document.createElement('span')
         span.innerHTML = 'Добавить ещё одну карточку'
@@ -75,12 +86,37 @@ class Column {
         create_task.appendChild(span)
     }
     static showButton() {
-        document.querySelectorAll('.add-task').forEach((el)=>{
-            el.style.display = 'block'
+        const buttons = document.querySelectorAll('#add-task')
+        buttons.forEach((el,i)=>{
+          el.style.display='block'
         })
     }
+    static addDescription() {
+        const task_name = document.querySelector('#task_name').value;
+        console.log(task_name)
+        if (task_name === '') {
+            return
+        }
+        else {
+            const task = new Task(task_name)
+            Task.getElement(task)
+            console.log(task)
+            Column.task_list.push(task) 
+            console.log(Column.task_list)
+        }
+    }
 }
-class columnUI {
+/* const card = document.querySelector('.card')
+card.onclick = (e) => {
+    const target = e.target
+    if(e.target.id = 'button-task')
+    Column.addDescription()
+} */
+
+Column.id = JSON.parse(localStorage.getItem('id'));
+Column.task_list= []
+
+class UI {
     static displayColumn() {
         const columns = Store.getColumn();
         columns.forEach((column) => {
@@ -105,7 +141,8 @@ class Store {
     }
 }
 
-document.addEventListener('DOMContentLoaded', columnUI.displayColumn);
+
+document.addEventListener('DOMContentLoaded', UI.displayColumn);
 
 const new_column = document.getElementById('new_column')
 new_column.addEventListener('submit', (e) => {
@@ -116,7 +153,9 @@ new_column.addEventListener('submit', (e) => {
     }
     else {
         const column = new Column(col_name);
+        localStorage.setItem('id',Column.id)
         Column.newColumn(column);
         Store.addColumn(column);
     }
 })
+
