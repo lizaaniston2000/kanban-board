@@ -3,7 +3,7 @@ class Column {
     constructor(col_name) {
         this.col_name = col_name;
         Column.id+=1
-        this.id = Column.id
+        this.id = Number(new Date()).toString(36);
         this.task_list = Column.task_list;
     } 
     static newColumn(column) {
@@ -36,6 +36,7 @@ class Column {
         task_list.appendChild(taskCont)
     }
     static createForm() {
+        let self = this;
         const col = document.querySelector('.card')
         const form = document.createElement('form')
         const inp_cont = document.createElement('div')
@@ -54,7 +55,7 @@ class Column {
         button.id = 'button-task'
         button.onclick = function (e) {
             e.preventDefault()
-            Column.addDescription()
+           /*  Column.addDescription() */
         }
         input.placeholder = 'Введите название карточки'
         input.className = 'input'
@@ -66,6 +67,7 @@ class Column {
         form.appendChild(button)
         inp_cont.appendChild(input)
         form.appendChild(cansel)
+        
     }
     static createButton () {
         const col = document.querySelector('.card')
@@ -112,9 +114,6 @@ card.onclick = (e) => {
     if(e.target.id = 'button-task')
     Column.addDescription()
 } */
-
-Column.id = JSON.parse(localStorage.getItem('id'));
-Column.task_list= []
 
 class UI {
     static displayColumn() {
