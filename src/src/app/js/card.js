@@ -34,19 +34,16 @@ errorMessage.style.display = 'none';
 export class Task {
     constructor(description) {
         this.description = description
-        Task.id+=1
-        this.id = Task.id
+        this.id = Number(new Date()).toString(36);
     }
-    static getElement(task) {
+    static CreateElement(task) {
         const task_cont = document.querySelector('.task-container')
         const newTask = document.createElement('div')
         newTask.innerHTML=`<p>${task.description}</p>`
         newTask.className = 'task'
         task_cont.appendChild(newTask)
-        localStorage.setItem('task-id',Task.id)
     }
 }
-Task.id = JSON.parse(localStorage.getItem('task-id')); 
 
 
 /* document.addEventListener('DOMContentLoaded', UI.displayTasks);

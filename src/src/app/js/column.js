@@ -2,9 +2,8 @@ import {Task} from './card'
 class Column {
     constructor(col_name) {
         this.col_name = col_name;
-        Column.id+=1
         this.id = Number(new Date()).toString(36);
-        this.task_list = Column.task_list;
+        this.task_list = []
     } 
     static newColumn(column) {
         this.createTask()
@@ -16,7 +15,7 @@ class Column {
         const create_task = document.querySelector('#add-task')
         const taskList = document.querySelector('.task-list')
         col.className = 'card'
-        col.id = 'new_card'
+        col.setAttribute('id', column.id)
         const title = document.createElement('h3')
         title.innerHTML =`<h3>${column.col_name}</h3> `
         main.appendChild(col)
@@ -24,7 +23,6 @@ class Column {
         col.appendChild(form)
         col.appendChild(create_task)
         col.appendChild(taskList)
-        return col
     }
     static createTask() {
         const col = document.querySelector('.card');
@@ -36,8 +34,7 @@ class Column {
         task_list.appendChild(taskCont)
     }
     static createForm() {
-        let self = this;
-        const col = document.querySelector('.card')
+        const col = document.querySelector('.card form')
         const form = document.createElement('form')
         const inp_cont = document.createElement('div')
         inp_cont.className = 'input_container'
@@ -53,10 +50,6 @@ class Column {
         button.className = 'task-button'
         button.textContent = 'Добавить карточку'
         button.id = 'button-task'
-        button.onclick = function (e) {
-            e.preventDefault()
-           /*  Column.addDescription() */
-        }
         input.placeholder = 'Введите название карточки'
         input.className = 'input'
         input.id = "task_name"
@@ -67,7 +60,10 @@ class Column {
         form.appendChild(button)
         inp_cont.appendChild(input)
         form.appendChild(cansel)
-        
+        /* form.onsubmit = (e) => {
+            e.preventDefault()
+            this.addDescription()
+        }  */
     }
     static createButton () {
         const col = document.querySelector('.card')
@@ -96,16 +92,7 @@ class Column {
     static addDescription() {
         const task_name = document.querySelector('#task_name').value;
         console.log(task_name)
-        if (task_name === '') {
-            return
-        }
-        else {
-            const task = new Task(task_name)
-            Task.getElement(task)
-            console.log(task)
-            Column.task_list.push(task) 
-            console.log(Column.task_list)
-        }
+        return task_name
     }
 }
 /* const card = document.querySelector('.card')
@@ -117,44 +104,106 @@ card.onclick = (e) => {
 
 class UI {
     static displayColumn() {
-        const columns = Store.getColumn();
+        const columns = Store.getColumns();
         columns.forEach((column) => {
             Column.newColumn(column)
-        });
+        })
+        columns.forEach((column) => {
+            let elems = document.getElementById(column.id)
+        })
     }
+   /*  static getDisplayColumn () {
+        const columns = Store.getColumns();
+        columns.forEach((column,i) => {
+            if(this.displayColumn) {
+                let elem = document.getElementById(column.id)
+                console.log(elem)
+            }
+        })
+    } */
+    static getColumn(column) {
+        let columns = this.getDisplayColumn()
+        let element = columns.filter(el => el == column.id)
+        console.log(element)
+        return element
+    } 
 }
 class Store {
-    static getColumn() {
+    static getColumns() {
         let columns;
         if (localStorage.getItem('columns') === null) {
-            columns = [];
+            columns = []
         } else {
             columns = JSON.parse(localStorage.getItem('columns'));
         }
         return columns;
     }
     static addColumn(column) {
-        const columns = Store.getColumn();
+        const columns = Store.getColumns();
         columns.push(column);
         localStorage.setItem('columns', JSON.stringify(columns));
+    } 
+    static createColumn() {
+        const col_name = document.querySelector('#col_name').value;
+        if (col_name === '') {
+            errorMessage.style.display = 'block';
+        }
+        else {
+            const taskList = []
+            const column = new Column(col_name,taskList);
+            Column.newColumn(column);
+            this.addColumn(column);
+            console.log(column)
+            console.log(column.col_name)
+        }
     }
+    /* static returnButton() {
+        const button_group = document.querySelectorAll('#button-task')
+        console.log(button_group.length)
+        return button_group
+    } */
+    /* static addTask() {
+        let column = getColumn()
+        const task_name = document.querySelector('#task_name').value;
+        const task = new Task(task_name)
+        tasks.push(task) 
+        columns.forEach((column,i) => {
+            column[i]
+        })
+        columns.push(task)
+        Task.getElement(task)
+    }
+    static showTask() {
+
+    } */
 }
 
 
 document.addEventListener('DOMContentLoaded', UI.displayColumn);
-
+document.addEventListener('DOMContentLoaded', UI.getId);
 const new_column = document.getElementById('new_column')
+
 new_column.addEventListener('submit', (e) => {
     e.preventDefault();
-    const col_name = document.querySelector('#col_name').value;
-    if (col_name === '') {
-        errorMessage.style.display = 'block';
-    }
-    else {
-        const column = new Column(col_name);
-        localStorage.setItem('id',Column.id)
-        Column.newColumn(column);
-        Store.addColumn(column);
-    }
+    Store.createColumn()
+   /*  Store.returnButton() */
 })
+/* let button_group = document.querySelectorAll('#button-task') */
+/* a.forEach((el) => {
+    el.onclick = (e) => {
+        e.preventDefault()
+        console.log('Hello9')
+    }
+}) */
 
+/* const form_task = UI.getDisplayColumn() */
+
+
+
+
+/* const button = document.querySelectorAll('#button-task')
+button.forEach((el,i)=>el.onclick = (e) => {
+    e.preventDefault()
+    console.log(el[i])
+})
+ */
