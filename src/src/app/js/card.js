@@ -36,12 +36,33 @@ export class Task {
         this.description = description
         this.id = Number(new Date()).toString(36);
     }
-    static CreateElement(task) {
+    static createElem(task) {
         const task_cont = document.querySelector('.task-container')
         const newTask = document.createElement('div')
         newTask.innerHTML=`<p>${task.description}</p>`
         newTask.className = 'task'
         task_cont.appendChild(newTask)
+        return newTask
+    }
+    static getCards() {
+        let cards;
+        if (localStorage.getItem('card') === null) {
+            cards = []
+        } else {
+            cards = JSON.parse(localStorage.getItem('cards'));
+        }
+        return cards;
+    }
+    static addTask(task) {
+        const cards = this.getCards();
+        cards.push(task);
+        localStorage.setItem('cards', JSON.stringify(cards));
+    } 
+    static displayCard() {
+        const cards = this.getCards();
+        cards.forEach((card) => {
+            this.createElem(card)
+        })
     }
 }
 
