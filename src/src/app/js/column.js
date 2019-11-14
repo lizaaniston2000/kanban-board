@@ -3,7 +3,7 @@ class Column {
     constructor(col_name) {
         this.col_name = col_name;
         this.id = Number(new Date()).toString(36);
-        this.task_list = []
+        this.task_list =[]
     }
     static newColumn(column) {
         const main = document.querySelector('.kanban_board');
@@ -27,10 +27,9 @@ class Column {
             let card = new Task(task)
             let new_task = Task.createElem(card)
             task_list.appendChild(new_task)
-            column.task_list.push(card)
-            let cards = column.task_list
-            Task.addTask(cards)
-            console.log(column.task_list)
+            Task.addTask(a)
+            console.log(a)
+            Store.TaskStore()
         })
         this.showAddButton(column)
         this.showForm(column)
@@ -111,15 +110,21 @@ class Store {
         } else {
             columns = JSON.parse(localStorage.getItem('columns'));
         }
+        console.log(columns)
         return columns;
     }
-    static getColumn(column) {
-        const columns = Store.getColumns();
-        let col = columns.filter((elem)=>{
-            elem == column
-        })
-        console.log(col)
+    static TaskStore() {
+        let columns = Store.getColumns();
+        for(let i=1; i<columns.length; i++){
+            console.log(columns[i].id)
+        }
     }
+   /*  static getColumnID() {
+        const columns = Store.getColumns();
+        let a = columns.forEach((elem)=>{
+           return elem.id
+        })  
+    } */
     static addColumn(column) {
         const columns = Store.getColumns();
         columns.push(column);
