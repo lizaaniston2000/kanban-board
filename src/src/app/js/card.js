@@ -32,55 +32,18 @@ errorButton.addEventListener('click', () => {
 
 errorMessage.style.display = 'none'; 
 export class Task {
-    constructor(description) {
+    constructor(description,column_id) {
         this.description = description
         this.id = Number(new Date()).toString(36);
+        this.column_id = column_id
     }
     static createElem(task) {
-        const task_cont = document.querySelector('.task-container')
         const newTask = document.createElement('div')
         newTask.innerHTML=`<p>${task.description}</p>`
         newTask.className = 'task'
-        task_cont.appendChild(newTask)
         return newTask
-    }
-    static getCards() {
-        let cards;
-        if (localStorage.getItem('card') === null) {
-            cards = []
-        } else {
-            cards = JSON.parse(localStorage.getItem('cards'));
-        }
-        return cards;
-    }
-    static addTask(task) {
-        const cards = this.getCards();
-        cards.push(task);
-        localStorage.setItem('cards', JSON.stringify(cards));
-    } 
-    static displayCard() {
-        const cards = this.getCards();
-        cards.forEach((card) => {
-            this.createElem(card)
-        })
     }
 }
 
 
-/* document.addEventListener('DOMContentLoaded', UI.displayTasks);
 
-const new_task = document.getElementById('new_task');
-
-new_task.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const task_name = document.querySelector('#task_name').value;
-    if (task_name === '') {
-        errorMessage.style.display = 'block';
-    }
-    else {
-        const task = new Task(task_name, );
-        UI.addTaskToList(task);
-        Store.addTask(task);
-        UI.clearFields();
-    }
-})  */

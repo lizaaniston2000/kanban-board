@@ -3,7 +3,7 @@ class Column {
     constructor(col_name) {
         this.col_name = col_name;
         this.id = Number(new Date()).toString(36);
-        this.task_list =[]
+        this.task_list = []
     }
     static newColumn(column) {
         const main = document.querySelector('.kanban_board');
@@ -12,27 +12,36 @@ class Column {
         col.id = column.id
         const title = document.createElement('h3')
         title.innerHTML = `<h3>${column.col_name}</h3> `
-        const task_list = this.createTask()
+        const task_list = this.createTaskList()
         const form = this.createForm(column)
-        const addCard = this.createButton(column)
+        const addCard = this.createAddCardButton(column)
+        const task_container = document.createElement('div') 
+        task_container.className = 'task-container' 
         main.appendChild(col)
         col.appendChild(title)
         col.appendChild(task_list)
+        task_list.appendChild(task_container)
         col.appendChild(form)
         col.appendChild(addCard)
         form.addEventListener('submit', (e) => {
             e.preventDefault()
             let task = document.getElementById("inp" + '-' + column.id).value
-            console.log(task)
-            let card = new Task(task)
+            let card = new Task(task,column.id)
+            Store.AddtaskList(card,column)
             let new_task = Task.createElem(card)
-            task_list.appendChild(new_task)
-            Task.addTask(a)
-            console.log(a)
-            Store.TaskStore()
+            task_container.appendChild(new_task)
         })
         this.showAddButton(column)
         this.showForm(column)
+        const cards = Store.taskList(column.id)
+        console.log(cards) 
+        let description = cards.map(elems => elems.description)
+        description.forEach((elem) => {
+            let task = document.createElement('div');
+            task.className = 'task'
+            task.innerHTML = `<p>${elem}</p>`
+            task_container.appendChild(task)
+        })  
         return col
     }
     static showAddButton(column) {
@@ -47,12 +56,9 @@ class Column {
             document.getElementById('add-task' + column.id).style.display = 'none'
         }
     }
-    static createTask() {
+    static createTaskList() {
         const task_list = document.createElement('div');
         task_list.className = 'task-list'
-        const taskCont = document.createElement('div');
-        taskCont.className = 'task-container'
-        task_list.appendChild(taskCont)
         return task_list
     }
     static createForm(column) {
@@ -79,7 +85,7 @@ class Column {
         form.appendChild(cansel)
         return form
     }
-    static createButton(column) {
+    static createAddCardButton(column) {
         const create_task = document.createElement('div')
         create_task.className = 'add-task'
         create_task.id = 'add-task' + column.id
@@ -101,8 +107,7 @@ class UI {
         })
     }
 }
-
-class Store {
+export class Store {
     static getColumns() {
         let columns;
         if (localStorage.getItem('columns') === null) {
@@ -110,20 +115,33 @@ class Store {
         } else {
             columns = JSON.parse(localStorage.getItem('columns'));
         }
-        console.log(columns)
         return columns;
     }
-    static TaskStore() {
-        let columns = Store.getColumns();
-        for(let i=1; i<columns.length; i++){
-            console.log(columns[i].id)
+    static AddtaskList (task) {
+        let columns = this.getColumns();
+        for(let i=0; i<columns.length; i++) { 
+            if (columns[i].id == task.column_id) {
+                columns[i].task_list.push(task)
+            }
+            /* let index = columns.indexOf(columns[i]);
+            console.log(index) */
         }
+        localStorage.setItem('columns', JSON.stringify(columns));
+        /* } */ 
     }
-   /*  static getColumnID() {
-        const columns = Store.getColumns();
-        let a = columns.forEach((elem)=>{
-           return elem.id
-        })  
+    static taskList(column_id) {
+        let columns = JSON.parse(localStorage.getItem('columns'))
+        for(let i=0; i<columns.length; i++) {
+            if (columns[i].id == column_id) {
+                return columns[i].task_list
+            }
+        }
+        return []
+    } 
+    /* static addTask(task) {
+        let taskList = this.taskList()
+        taskList.push(task)
+        console.log(taskList)
     } */
     static addColumn(column) {
         const columns = Store.getColumns();
@@ -137,15 +155,15 @@ class Store {
         }
         else {
             const column = new Column(col_name);
-            Column.newColumn(column);
             this.addColumn(column);
-            console.log(column)
-            console.log(column.col_name)
+            Column.newColumn(column);
         }
     }
 }
 
 document.addEventListener('DOMContentLoaded', UI.displayColumn);
+
+
 const new_column = document.getElementById('new_column')
 new_column.addEventListener('submit', (e) => {
     e.preventDefault();
