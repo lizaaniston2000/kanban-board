@@ -6,6 +6,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    margin-right: 20px;
     h3 {
         margin: 0;
         font-weight: 800;
@@ -13,6 +14,12 @@
         padding-left: 13px;
         padding-top: 8px;
         padding-bottom: 12px;
+        display: flex;
+        justify-content: space-between;
+        img {
+            padding-right: 10px;
+            cursor: pointer;
+        }
     }
 }
 #new_task {
@@ -123,10 +130,13 @@
 }
 .error_alert {
     align-self: center;
-    margin: auto 180px;
     width: 300px;
     height: 190px;
     background: #DFE3E6;
+    display: none;
+    position: absolute;
+    left: 470px;
+    z-index: 20;
     div {
         margin: 48px auto;
         height: 50%;
