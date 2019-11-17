@@ -56,13 +56,20 @@ export class Column {
         this.showForm(column);
         this.deleteColumn(column)
         const cards = Store.taskList(column.id);
-        let description = cards.map(elems => elems.description);
-        description.forEach((elem) => {
-            let task = document.createElement('div');
-            task.className = 'task';
-            task.innerHTML = `<p>${elem}</p>`;
+        cards.forEach(element => {
+            let task = Task.createElem(element,cards)
             task_container.appendChild(task);
-        })  
+           /*  document.getElementById('del-task'+element.id).addEventListener('click', ()=>{
+               let i = cards.indexOf(element)
+               console.log(i)
+               if(i!==-1) {
+                 cards.splice(i,1)
+                 document.getElementById(element.id).remove()
+                 Store.deleteElementTaskList(cards)
+                 console.log(cards) 
+               }
+            }) */
+        });
         return col;
     }
     static deleteColumn(column) {

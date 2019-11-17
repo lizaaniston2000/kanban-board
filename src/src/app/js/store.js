@@ -17,6 +17,13 @@ export class Store {
         }
         localStorage.setItem('columns', JSON.stringify(columns));
     }
+    static deleteElementTaskList (cards) {
+        let columns = this.getColumns();
+        for(let i=0; i<columns.length; i++) { 
+            columns[i].task_list = cards
+        }
+        localStorage.setItem('columns', JSON.stringify(columns));
+    }
     static taskList(column_id) {
         let columns = JSON.parse(localStorage.getItem('columns'))
         for(let i=0; i<columns.length; i++) {
@@ -39,5 +46,10 @@ export class Store {
         columns.push(column);
         localStorage.setItem('columns', JSON.stringify(columns));
     } 
-
+   /*  static getCardsId(column) {
+        let cards = Store.taskList(column.id)
+        for (let i=0; i<cards.length; i++) {
+            return (cards[i].id)
+        }
+    } */
 }
