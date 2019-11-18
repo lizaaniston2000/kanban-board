@@ -55,7 +55,7 @@ export class Store {
         columns.splice(index,1);
         localStorage.setItem('columns', JSON.stringify(columns));
     } 
-    static addColumn(column) {
+    static addColumn(column) { 
         const columns = Store.getColumns();
         columns.push(column);
         localStorage.setItem('columns', JSON.stringify(columns));

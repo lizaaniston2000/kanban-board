@@ -20,7 +20,7 @@ export class Column {
         const title = document.createElement('h3');
         title.innerHTML = `${column.col_name}`;
         const deleteButton = document.createElement('img');
-        deleteButton.src = 'src/public/img/cross.png';
+        deleteButton.src = './img/cross.png';
         deleteButton.id = 'delete-' + column.id
         title.appendChild(deleteButton)
         const task_list = this.createTaskList();
@@ -105,7 +105,7 @@ export class Column {
         const cansel = document.createElement('img');
         cansel.className = 'close';
         cansel.id = 'close' + column.id;
-        cansel.src = 'src/public/img/cross.png';
+        cansel.src = './img/cross.png';
         button.className = 'task-button';
         button.textContent = 'Добавить карточку';
         input.placeholder = 'Введите название карточки';
@@ -127,7 +127,7 @@ export class Column {
         const span = document.createElement('span');
         span.innerHTML = 'Добавить ещё одну карточку';
         const img = document.createElement('img');
-        img.src = 'src/public/img/Vector.png';
+        img.src = './img/Vector.png';
         create_task.appendChild(img);
         create_task.appendChild(span);
         return create_task;

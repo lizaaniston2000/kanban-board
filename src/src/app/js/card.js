@@ -12,7 +12,7 @@ export class Task {
         newTask.className = 'task';
         newTask.id = task.id
         let deleteTask = document.createElement('img')
-        deleteTask.src = 'src/public/img/cross.png';
+        deleteTask.src = './img/cross.png';
         deleteTask.id = 'del-task' + task.id
         newTask.appendChild(deleteTask)
         deleteTask.addEventListener('click', () => {
