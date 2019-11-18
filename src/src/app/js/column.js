@@ -4,6 +4,7 @@ import { UI } from './UI'
 
 const errorButton = document.querySelector('.error_alert .task-button');
 const errorMessage = document.querySelector('.error_alert');
+const confirm = document.getElementById('confirm_alert')
 
 export class Column {
     constructor(col_name) {
@@ -20,13 +21,13 @@ export class Column {
         title.innerHTML = `${column.col_name}`;
         const deleteButton = document.createElement('img');
         deleteButton.src = 'src/public/img/cross.png';
-        deleteButton.id = 'delete-'+column.id
+        deleteButton.id = 'delete-' + column.id
         title.appendChild(deleteButton)
         const task_list = this.createTaskList();
         const form = this.createForm(column);
         const addCard = this.createAddCardButton(column);
         const task_container = document.createElement('div');
-        task_container.className = 'task-container' ;
+        task_container.className = 'task-container';
         const buttonAddCard = main.querySelector('#add-col')
         main.insertBefore(col, buttonAddCard);
         col.appendChild(title);
@@ -37,15 +38,15 @@ export class Column {
         form.addEventListener('submit', (e) => {
             e.preventDefault()
             let task = document.getElementById("inp" + '-' + column.id).value;
-            let card = new Task(task,column.id);
-            if (task!== '') {
-                Store.AddtaskList(card,column);
+            let card = new Task(task, column.id);
+            if (task !== '') {
+                Store.AddtaskList(card, column);
                 let new_task = Task.createElem(card);
                 task_container.appendChild(new_task);
-                document.getElementById("inp" + '-' + column.id).value=''
+                document.getElementById("inp" + '-' + column.id).value = ''
             }
             else {
-                document.getElementById("inp" + '-' + column.id).value=''
+                document.getElementById("inp" + '-' + column.id).value = ''
                 errorMessage.style.display = 'block';
                 errorButton.onclick = () => {
                     errorMessage.style.display = 'none';
@@ -55,30 +56,27 @@ export class Column {
         this.showAddButton(column);
         this.showForm(column);
         this.deleteColumn(column)
-        const cards = Store.taskList(column.id);
+        let cards = Store.taskList(column.id);
         cards.forEach(element => {
-            let task = Task.createElem(element,cards)
+            let task = Task.createElem(element,column)
             task_container.appendChild(task);
-           /*  document.getElementById('del-task'+element.id).addEventListener('click', ()=>{
-               let i = cards.indexOf(element)
-               console.log(i)
-               if(i!==-1) {
-                 cards.splice(i,1)
-                 document.getElementById(element.id).remove()
-                 Store.deleteElementTaskList(cards)
-                 console.log(cards) 
-               }
-            }) */
         });
         return col;
     }
     static deleteColumn(column) {
-        document.getElementById('delete-'+column.id).onclick = () => {
-            let index = Store.getColumnIndex(column.id)
-            let columns = Store.getColumns()
-            columns.splice(index,1)
-            localStorage.setItem('columns', JSON.stringify(columns));
-            document.getElementById(column.id).remove()
+        document.getElementById('delete-' + column.id).onclick = () => {
+            confirm.style.display = 'block';
+            confirm.onclick = (e) => {
+                let target = e.target
+                if (target.id == 'ok') {
+                    Store.deleteColumn(column.id)
+                    document.getElementById(column.id).remove();
+                    document.getElementById('confirm_alert').style.display = 'none'; 
+                }
+                else {
+                    document.getElementById('confirm_alert').style.display = 'none';
+                } 
+            }
         }
     }
     static showAddButton(column) {

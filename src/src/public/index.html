@@ -9,14 +9,21 @@
 </head>
 <body>
     <section class="kanban_board">
-        <div class="error_alert">
+        <div class="error_alert" id='error'>
             <div>
                 <p>Пожалуйста, заполните поле</p>
                 <button class="task-button">Ok</button>
             </div>
         </div>
+        <div id="confirm_alert" class="error_alert">
+            <p>Вы действительно хотите удалить колонку?</p>
+            <div>
+                <button class="task-button" id="ok">Ok</button> 
+                <button class="task-button" id="cancel">Отменить</button>
+            </div>
+        </div>
         <div class="card" id="add-col">
-            <div class="add-task">
+            <div class="add-task"> 
                 <img src="src/public/img/Vector.png" alt="">
                 <span>Добавить ещё одну колонку</span>
             </div>

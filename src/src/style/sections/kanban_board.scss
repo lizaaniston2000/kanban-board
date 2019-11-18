@@ -22,6 +22,22 @@
         }
     }
 }
+#confirm_alert{
+    display: none;
+    p {
+        text-align: center;
+        margin: 50px auto;
+    }
+    div {
+        flex-direction: row;
+        justify-content: space-around;
+        margin: 30px auto;
+        height: 0%;
+    }
+    .task-button {
+        width: 95px;
+    }
+}
 #new_task {
     margin-bottom: 3px;
 }
@@ -139,8 +155,9 @@
     height: 190px;
     background: #DFE3E6;
     display: none;
-    position: absolute;
-    left: 470px;
+    position: fixed;
+    left: 740px;
+    top: 300px;
     z-index: 20;
     div {
         margin: 48px auto;
