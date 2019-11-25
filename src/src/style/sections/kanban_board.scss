@@ -1,4 +1,5 @@
 .card {
+    margin-left:20px;
     width: 272px;
     max-height: 640px;
     background: #DFE3E6;
@@ -6,6 +7,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    outline: none;
     h3 {
         margin: 0;
         font-weight: 800;
@@ -13,7 +15,19 @@
         padding-left: 13px;
         padding-top: 8px;
         padding-bottom: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        img {
+            cursor: pointer;
+            margin-right: 10px;
+        }
     }
+}
+.column_list {
+    display: flex;
+    align-items: flex-start;
+    outline: none;
 }
 .task-list {
     width: 248px;
@@ -24,10 +38,16 @@
 .task-container {
     overflow: auto;
     width: 279px;
-    max-height: 571px;
+    max-height: 480px;
+    outline: none;
+    .pre_task {
+        height: 10px;
+    }
 }
 .task {
     width: 248px;
+    color: #000000;
+    outline: none;
     margin-bottom: 8px;
     min-height: 35px;
     background: #FFFFFF;
@@ -35,19 +55,40 @@
     box-shadow: 0px 1px 4px rgba(9, 45, 66, 0.25);
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
     p {
         font-size: 13px;
-        color: #000000;
+      
         margin: 0;
         padding: 8px 12px;
     }
+    img {
+        margin-right: 20px;
+        cursor: pointer;
+    }
+    &:hover {
+        color: #FFFFFF;
+        background: #C0C0C0;
+    }
 }
-.add-task {
+.delete {
+    padding: 5px;
+    &:hover {
+        background: #C0C0C0;
+    }
+}
+.close {
+    padding: 5px;
+    &:hover {
+        background: #C0C0C0;
+    }
+}
+.add-column {
     background: #DFE3E6;
     cursor: pointer;
     font-size: 13px;
     color: #6B808C;
-    width: 272px;
     border-radius: 3px;
     height: 20px;
     padding-top: 12px;
@@ -55,6 +96,26 @@
     padding-left: 12px;
     img {
         padding-right: 8px;
+    } 
+    &:hover {
+        background: #C0C0C0;
+    }
+}
+.add-task {
+    background: #DFE3E6;
+    cursor: pointer;
+    font-size: 13px;
+    color: #6B808C;
+    border-radius: 3px;
+    height: 20px;
+    padding-top: 12px;
+    padding-bottom: 13px;
+    padding-left: 12px;
+    img {
+        padding-right: 8px;
+    }
+    &:hover {
+        background: #C0C0C0;
     }
 }
 .input-task {
@@ -109,10 +170,14 @@
 }
 .error_alert {
     align-self: center;
-    margin: auto 180px;
     width: 300px;
     height: 190px;
     background: #DFE3E6;
+    display: none;
+    position: fixed;
+    left: 835px;
+    top: 300px;
+    z-index: 20;
     div {
         margin: 48px auto;
         height: 50%;
@@ -120,5 +185,21 @@
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
+    }
+}
+#confirm_alert{
+    display: none;
+    p {
+        text-align: center;
+        margin: 50px auto;
+    }
+    div {
+        flex-direction: row;
+        justify-content: space-around;
+        margin: 30px auto;
+        height: 0%;
+    }
+    .task-button {
+        width: 95px;
     }
 }

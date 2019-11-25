@@ -1,101 +1,73 @@
-import {clickBut, hideForm} from './card'
-
-class Column {
-    constructor(col_name) {
-        this.col_name = col_name;
-    }
-    static newColumn(column) {
-        this.createForm()
-        this.createButton()
-        const main = document.querySelector('.kanban_board');
-        const col = document.createElement('div')
-        const task_list = document.createElement ('ul')
-        const form = document.querySelector('#new_task')
-        const create_task = document.querySelector('#add-task')
-        col.className = 'card'
-        col.id = 'new_card'
-        const title = document.createElement('h3')
-        title.innerHTML =`<h3>${column.col_name}</h3> `
-        main.appendChild(col)
-        col.appendChild(title)
-        col.appendChild(task_list)
-        col.appendChild(form)
-        col.appendChild(create_task)
-    }
-    static createForm() {
-        const col = document.querySelector('.card')
-        const form = document.createElement('form')
-        const inp_cont = document.createElement('div')
-        inp_cont.className = 'input_container'
-        const input =  document.createElement('input')
-        const button = document.createElement('button')
-        button.className = 'task-button'
-        input.placeholder = 'Введите название карточки'
-        input.className = 'input'
-        form.id = 'new_task'
-        form.style.display = 'none'
-        col.appendChild(form)
-        form.appendChild(inp_cont)
-        form.appendChild(button)
-        inp_cont.appendChild(input)
-    }
-    static createButton () {
-        const col = document.querySelector('.card')
-        const create_task = document.createElement('div')
-        const form = document.querySelector('#new_task')
-        create_task.className = 'add-task'
-        create_task.id = 'add-task'
-        create_task.onclick = function() {
-            form.style.display = 'block'
+import { Store } from './store'
+import { Card } from './card'
+import { UI } from './ui'
+export class Column {
+    constructor(props) {
+        this.state = {
+            col_name: props.col_name,
+            id: props.id || Number(new Date()).toString(36),
+            task_list: props.task_list || []
         }
-        const span = document.createElement('span')
-        span.innerHTML = 'Добавить ещё одну карточку'
-        const img = document.createElement('img');
-        img.src = 'src/public/img/Vector.png' 
-        col.appendChild(create_task)
-        create_task.appendChild(img)
-        create_task.appendChild(span)
+    }
+    template() {
+        return `<div class="card" id="${this.state.id}">
+            <h3>${this.state.col_name} <img src="./img/cross.png" alt="" class="delete" id="delete-${this.state.id}"></h3>
+            <div class="task-list">
+                <div class="task-container" id="tasks${this.state.id}">
+                    <div class="pre_task"></div>
+                    ${this.state.task_list.map(elem => {
+                        let card = new Card(elem.state)
+                        return card.renderTask()
+                    }).join('')}
+                </div>
+            </div>
+            <div class="add-task" id ="add-task-${this.state.id}">
+                <div>
+                    <img src="./img/Vector.png" alt="">
+                    <span>Add one more card</span>
+                </div>
+            </div>
+            <form action="" class="input-task" id="new_task${this.state.id}">
+                <div class="input_container">
+                    <input class="input"  id="task_name${this.state.id}" type="text" placeholder="Please, input name of the card">
+                </div>
+                <div class="button_container">
+                    <button type="submit" class="task-button">Add card</button>
+                    <img src="./img/cross.png" alt="" class="close" id="close${this.state.id}">
+                </div>
+            </form>
+        </div>`
     }
 }
-class columnUI {
-    static displayColumn() {
-        const columns = Store.getColumn();
-        columns.forEach((column) => {
-            Column.newColumn(column)
-        });
-    }
-    
-}
-class Store {
-    static getColumn() {
-        let columns;
-        if (localStorage.getItem('columns') === null) {
-            columns = [];
-        } else {
-            columns = JSON.parse(localStorage.getItem('columns'));
-        }
-        return columns;
-    }
-    static addColumn(column) {
-        const columns = Store.getColumn();
-        columns.push(column);
-        localStorage.setItem('columns', JSON.stringify(columns));
-    }
-}
-
-document.addEventListener('DOMContentLoaded', columnUI.displayColumn);
 
 
 const new_column = document.getElementById('new_column')
+
 new_column.addEventListener('submit', (e) => {
     e.preventDefault();
     const col_name = document.querySelector('#col_name').value;
     if (col_name === '') {
-        errorMessage.style.display = 'block';
+        document.querySelector('.error_alert').style.display = 'block'
+        document.querySelector('.error_alert').onclick = (e) => {
+            if (e.target.className == 'task-button') {
+                document.querySelector('.error_alert').style.display = 'none'
+            }
+        }
     }
     else {
-        const column = new Column(col_name);
-        Column.newColumn(column);
+        const column = new Column({ col_name });
+        document.querySelector('#col_name').value = '';
         Store.addColumn(column);
+        document.querySelector('.column_list').innerHTML += column.template();
+        document.querySelector('#col_name').value = '';
+        let columns = Store.getColumns();
+        let ui = new UI(columns);
+        ui.render();
+        ui.deleteColumn();
     }
 })
+
+
+
+
+
