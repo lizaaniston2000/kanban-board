@@ -1,28 +1,17 @@
-import { Store } from './store'
-
-export class Task {
-    constructor(description, column_id) {
-        this.description = description;
-        this.id = Number(new Date()).toString(36);
-        this.column_id = column_id;
+export class Card {
+    constructor(props) {
+        this.state = {
+            description: props.description,
+            id: props.id || Number(new Date()).toString(36),
+            column_id: props.column_id
+        }
     }
-    static createElem(task) {
-        const newTask = document.createElement('div');
-        newTask.innerHTML = `<p>${task.description}</p>`;
-        newTask.className = 'task';
-        newTask.id = task.id
-        let deleteTask = document.createElement('img')
-        deleteTask.src = './img/cross.png';
-        deleteTask.id = 'del-task' + task.id
-        newTask.appendChild(deleteTask)
-        deleteTask.addEventListener('click', () => {
-            let cards = Store.taskList(task.column_id)
-            Store.deleteElementTaskList(cards,task)
-            document.getElementById(task.id).remove()
-        })
-        return newTask;
+    renderTask() {
+        let self = this
+        return `<div class="task" id=${self.state.id}>
+            <p>${self.state.description}</p>
+            <img src="./img/cross.png" alt="" class="cansel" id="cansel-${self.state.id}">
+        </div>`
     }
 }
-
-
 

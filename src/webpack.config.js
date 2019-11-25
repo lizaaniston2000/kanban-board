@@ -2,6 +2,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 const CopyPlugin = require('copy-webpack-plugin');
+
 module.exports = {
     entry:  __dirname + "/src/app/index.js",
     output: {
@@ -58,8 +59,8 @@ module.exports = {
                     {
                         loader: 'image-webpack-loader',
                         options: {
-                            bypassOnDebug: true, // webpack@1.x
-                            disable: true, // webpack@2.x and newer
+                          bypassOnDebug: true, // webpack@1.x
+                          disable: true, // webpack@2.x and newer
                         },
                     },
                 ],

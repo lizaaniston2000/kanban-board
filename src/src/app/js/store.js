@@ -8,56 +8,65 @@ export class Store {
         }
         return columns;
     }
-    static AddtaskList (task) {
-        let columns = this.getColumns();
-        for(let i=0; i<columns.length; i++) { 
-            if (columns[i].id == task.column_id) {
-                columns[i].task_list.push(task);
+    static pushTaskToColumn(column_id, oldColumnId, task_id, i, old) {
+        const columns = Store.getColumns();
+        let elem = columns.find((i) => i.state.id == column_id);
+        let updatingList = elem.state.task_list;
+        let oldColumn = columns.find((i) => i.state.id == oldColumnId);
+        let oldColumnTaskList = oldColumn.state.task_list;
+        let getElem = oldColumnTaskList.find((i) => i.state.id == task_id)
+        let index = oldColumnTaskList.indexOf(getElem);
+        if (oldColumnTaskList == updatingList) {
+            oldColumnTaskList.splice(old, 1);
+            oldColumnTaskList.splice(i, 0, getElem);
+        }
+        else {
+            updatingList.splice(i, 0, getElem);
+            if (index != -1) {
+                oldColumnTaskList.splice(index, 1);
             }
         }
-        localStorage.setItem('columns', JSON.stringify(columns));
-    }
-    static deleteElementTaskList (cards, task) {
-        for(let i = 0; i<cards.length; i++) {
-            if(cards[i].id == task.id) {
-                let index = cards.indexOf(cards[i])
-                if (index !== -1) {
-                    cards.splice(index,1)
-                    let columns = JSON.parse(localStorage.getItem('columns'))
-                    for(let i=0; i<columns.length; i++) {
-                        columns[i].task_list = cards;
-                    }
-                    localStorage.setItem('columns', JSON.stringify(columns));
-                } 
-            }
-        }
-    }
-    static taskList(column_id) {
-        let columns = JSON.parse(localStorage.getItem('columns'))
-        for(let i=0; i<columns.length; i++) {
-            if (columns[i].id == column_id) {
-                return columns[i].task_list;
-            }
-        }
-        return [];
-    } 
-    static getColumnIndex(column_id) {
-        let columns = Store.getColumns();
-        for(let i=0; i<columns.length; i++) {
-            if (columns[i].id == column_id) {
-               return i;
-            }
-        } 
-    }
-   static deleteColumn (column_id) {
-        let index = Store.getColumnIndex(column_id)
-        let columns = Store.getColumns() 
-        columns.splice(index,1);
         localStorage.setItem('columns', JSON.stringify(columns));
     } 
     static addColumn(column) { 
         const columns = Store.getColumns();
         columns.push(column);
         localStorage.setItem('columns', JSON.stringify(columns));
+    }
+    static sortColumn(elem_id, new_i, old_i) {
+        const columns = Store.getColumns();
+        let elem = columns.find((i) => i.state.id == elem_id )
+        columns.splice(old_i,1);
+        columns.splice(new_i, 0, elem);
+        localStorage.setItem('columns', JSON.stringify(columns));
+    }
+    static AddtaskList (task) {
+        let columns = this.getColumns();
+        for(let i=0; i<columns.length; i++) { 
+            if (columns[i].state.id == task.state.column_id) {
+                columns[i].state.task_list.push(task);
+            }
+        }
+        localStorage.setItem('columns', JSON.stringify(columns));
+    }
+    static deleteElementTaskList(column_id,task_id) {
+        let columns = Store.getColumns();
+        let elem = columns.find((i)=>i.state.id ==column_id);
+        let arr = elem.state.task_list;
+        let task = arr.find((i)=>i.state.id==task_id);
+        let index = arr.indexOf(task);
+        if (index !== -1) {
+            arr.splice(index,1);
+            localStorage.setItem('columns',JSON.stringify(columns));
+        } 
+    }
+    static deleteColumn(column_id) {
+        let columns = Store.getColumns();
+        let elem = columns.find((i)=>i.state.id ==column_id);
+        let index = columns.indexOf(elem);
+        if (index !== -1) {
+            columns.splice(index,1)
+            localStorage.setItem('columns',JSON.stringify(columns));
+        }
     } 
 }

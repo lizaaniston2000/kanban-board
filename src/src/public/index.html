@@ -9,30 +9,31 @@
 </head>
 <body>
     <section class="kanban_board">
-        <div class="error_alert" id='error'>
+        <div class="column_list"></div>
+        <div class="error_alert">
             <div>
-                <p>Пожалуйста, заполните поле</p>
+                <p>Please, fill in this field</p>
                 <button class="task-button">Ok</button>
             </div>
         </div>
         <div id="confirm_alert" class="error_alert">
-            <p>Вы действительно хотите удалить колонку?</p>
+            <p>Do you really want to delete this column?</p>
             <div>
                 <button class="task-button" id="ok">Ok</button> 
-                <button class="task-button" id="cancel">Отменить</button>
+                <button class="task-button" id="cancel">Cancel</button>
             </div>
         </div>
         <div class="card" id="add-col">
-            <div class="add-task"> 
+            <div class="add-column">
                 <img src="./img/Vector.png" alt="">
-                <span>Добавить ещё одну колонку</span>
+                <span>Add one more column</span>
             </div>
             <form  class="input-task" id="new_column">
                 <div class="input_container">
-                    <input class="input" id="col_name" type="text" placeholder="Введите название колонки">
+                    <input class="input" id="col_name" type="text" placeholder="Please,input name of the column">
                 </div>
                 <div class="button_container">
-                    <button type="submit" class="task-button">Добавить колонку</button>
+                    <button type="submit" class="task-button">Add column</button>
                     <img src="./img/cross.png" alt="" class="close">
                 </div>
             </form>
