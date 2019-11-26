@@ -175,9 +175,10 @@
     background: #DFE3E6;
     display: none;
     position: fixed;
-    left: 835px;
-    top: 300px;
+    left: 50%;
+    top: 40%;
     z-index: 20;
+    transform: translate(-50%);
     div {
         margin: 48px auto;
         height: 50%;
