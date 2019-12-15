@@ -27,46 +27,46 @@ export class Store {
             }
         }
         localStorage.setItem('columns', JSON.stringify(columns));
-    } 
-    static addColumn(column) { 
+    }
+    static addColumn(column) {
         const columns = Store.getColumns();
         columns.push(column);
         localStorage.setItem('columns', JSON.stringify(columns));
     }
     static sortColumn(elem_id, new_i, old_i) {
         const columns = Store.getColumns();
-        let elem = columns.find((i) => i.state.id == elem_id )
-        columns.splice(old_i,1);
+        let elem = columns.find((i) => i.state.id == elem_id)
+        columns.splice(old_i, 1);
         columns.splice(new_i, 0, elem);
         localStorage.setItem('columns', JSON.stringify(columns));
     }
-    static AddtaskList (task) {
+    static AddtaskList(task) {
         let columns = this.getColumns();
-        for(let i=0; i<columns.length; i++) { 
+        for (let i = 0; i < columns.length; i++) {
             if (columns[i].state.id == task.state.column_id) {
                 columns[i].state.task_list.push(task);
             }
         }
         localStorage.setItem('columns', JSON.stringify(columns));
     }
-    static deleteElementTaskList(column_id,task_id) {
+    static deleteElementTaskList(column_id, task_id) {
         let columns = Store.getColumns();
-        let elem = columns.find((i)=>i.state.id ==column_id);
+        let elem = columns.find((i) => i.state.id == column_id);
         let arr = elem.state.task_list;
-        let task = arr.find((i)=>i.state.id==task_id);
+        let task = arr.find((i) => i.state.id == task_id);
         let index = arr.indexOf(task);
         if (index !== -1) {
-            arr.splice(index,1);
-            localStorage.setItem('columns',JSON.stringify(columns));
-        } 
+            arr.splice(index, 1);
+            localStorage.setItem('columns', JSON.stringify(columns));
+        }
     }
     static deleteColumn(column_id) {
         let columns = Store.getColumns();
-        let elem = columns.find((i)=>i.state.id ==column_id);
+        let elem = columns.find((i) => i.state.id == column_id);
         let index = columns.indexOf(elem);
         if (index !== -1) {
-            columns.splice(index,1)
-            localStorage.setItem('columns',JSON.stringify(columns));
+            columns.splice(index, 1)
+            localStorage.setItem('columns', JSON.stringify(columns));
         }
-    } 
+    }
 }
