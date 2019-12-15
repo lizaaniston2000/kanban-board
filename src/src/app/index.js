@@ -1,8 +1,8 @@
 import "../style/app.scss"
 import "./js/card"
 import "./js/column"
-import {UI} from './js/ui'
-import {Store} from './js/store'
+import { UI } from './js/ui'
+import { Store } from './js/store'
 
 const addButton = document.querySelector('.add-column');
 const inputTask = document.querySelector('.input-task');

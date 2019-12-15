@@ -16,9 +16,9 @@ export class Column {
                 <div class="task-container" id="tasks${this.state.id}">
                     <div class="pre_task"></div>
                     ${this.state.task_list.map(elem => {
-                        let card = new Card(elem.state)
-                        return card.renderTask()
-                    }).join('')}
+            let card = new Card(elem.state)
+            return card.renderTask()
+        }).join('')}
                 </div>
             </div>
             <div class="add-task" id ="add-task-${this.state.id}">

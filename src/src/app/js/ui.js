@@ -122,7 +122,7 @@ export class UI {
             dropzone: ".column_list",
             delay: 0
         })
-       
+
         sortable.on('sortable:start', (e) => {
             const currentTarget = e.dragEvent.data.sensorEvent.target;
             if (isPrevented(currentTarget, ['add-task', 'delete', 'input-task', 'close', 'cansel', 'task'])) {
